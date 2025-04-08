@@ -1,6 +1,4 @@
-# unable to run on my mac
-# CFLAGS := -Wall -g -static
-CFLAGS := -Wall -g 
+CFLAGS := -Wall -g -static
 
 SRCS := $(wildcard *.c)
 OBJS := $(SRCS:.c=)

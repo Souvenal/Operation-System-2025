@@ -6,6 +6,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <sys/resource.h>
+#include <sys/types.h>
 
 int main() {
     pid_t pid = getpid();
@@ -77,6 +78,7 @@ int main() {
         cwd[sizeof(cwd) - 1] = '\0';
         printf("Current directory: %s\n", cwd);
     }
+
     
     return 0;
 }

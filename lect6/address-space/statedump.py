@@ -85,3 +85,28 @@ class StatedumpCommand(gdb.Command):
 # Initialize the command
 StatedumpCommand()
 print('Use "statedump" to generate a state dump to plot.md')
+
+class AutoStatedumpCommand(gdb.Command):
+    """Automatically generate a state dump at each stop"""
+    
+    def __init__(self):
+        super(AutoStatedumpCommand, self).__init__("auto-statedump", gdb.COMMAND_USER)
+        self.enabled = False
+        self.statedump = StatedumpCommand()
+        
+    def invoke(self, arg, from_tty):
+        self.enabled = not self.enabled
+        if self.enabled:
+            gdb.events.stop.connect(self.on_stop)
+            print("Auto statedump enabled - will generate a dump at each stop")
+        else:
+            gdb.events.stop.disconnect(self.on_stop)
+            print("Auto statedump disabled")
+    
+    def on_stop(self, event):
+        print("Generating state dump...")
+        self.statedump.invoke("", False)
+
+# Initialize the auto-statedump command
+AutoStatedumpCommand()
+print('Use "auto-statedump" to toggle automatic state dumps at each stop')
